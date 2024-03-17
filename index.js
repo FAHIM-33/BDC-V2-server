@@ -2,7 +2,6 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 5000
 const cors = require('cors')
-// const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const cookieParser = require('cookie-parser')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
@@ -13,19 +12,6 @@ app.use(express.json())
 app.use(cors())
 app.use(cookieParser())
 
-// const verify = (req, res, next) => {
-//     const AccessToken = req?.cookies?.AccessToken
-//     if (!AccessToken) {
-//         return res.status(401).send({ message: "Unauthorized user" })
-//     }
-//     jwt.verify(AccessToken, process.env.TOKEN_SECRET, function (err, decoded) {
-//         if (err) {
-//             return res.status(401).send({ message: "Unauthorized user" })
-//         }
-//         req.tokenUserEmail = decoded.email
-//         next()
-//     });
-// }
 
 
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@cluster12.tzkl8fh.mongodb.net/?retryWrites=true&w=majority`;
@@ -56,19 +42,6 @@ const verifyAdmin = async (req, res, next) => {
 async function run() {
     try {
 
-        // client.connect();
-
-        // app.get('/api/v1/jwt', async (req, res) => {
-        //     const token = jwt.sign(req.query, process.env.TOKEN_SECRET, { expiresIn: '10h' });
-        //     const options = {
-        //         sameSite: 'none',
-        //         httpOnly: true,
-        //         secure: true
-        //     }
-        //     res.cookie('AccessToken', token, options).send({ success: true })
-        // })
-
-
         // user related APIs:
         // get user
         app.get('/api/v1/user', async (req, res) => {
@@ -78,11 +51,6 @@ async function run() {
             res.send(user)
         })
 
-        // get all users
-        // app.get('/api/v1/all-users', verify, async (req, res) => {
-        //     const result = await userCollection.find().toArray()
-        //     res.send(result)
-        // })
 
         // add user to DB
         app.post('/api/v1/add-user', async (req, res) => {
